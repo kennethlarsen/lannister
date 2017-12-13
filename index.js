@@ -1,9 +1,9 @@
 const fs = require('fs');
 const readline = require('readline');
 const stream = require('stream');
-const ParamsLenght = require('./validators/check-params');
-const LineCheck = require('./validators/file-length');
-const Report = require('./file-handling/write-report');
+const ParamsLenght = require('./lib/validators/function-validator');
+const LineCheck = require('./lib/validators/file-length');
+const Report = require('./lib/file-handling/write-report');
 
 const paramsCheckInstance = new ParamsLenght();
 const lineCheckInstance = new LineCheck();
@@ -23,7 +23,8 @@ function walk(dir, done) {
       var file = list[i++];
 
       if (!file) {
-          return done(null);
+        //report.generateReport();
+        return done(null);
       }
       
       file = dir + '/' + file;
@@ -44,10 +45,8 @@ function walk(dir, done) {
               });
 
               rl.on('close', function() {
-                // write to file here?
                 lineCheckInstance.checkLenghtOfFile(file);
                 next();
-                report.generateReport();
               });
           }
         });
@@ -68,7 +67,3 @@ walk(walkPath, function(error) {
         process.stdout.write('-------------------------------------------------------------\n');
     }
 });
-
-/* function checkLenghtOfFunction(line) {
-
-} */
