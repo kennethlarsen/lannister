@@ -3,9 +3,11 @@ const readline = require('readline');
 const stream = require('stream');
 const ParamsLenght = require('./validators/check-params');
 const LineCheck = require('./validators/file-length');
+const Report = require('./file-handling/write-report');
 
 const paramsCheckInstance = new ParamsLenght();
 const lineCheckInstance = new LineCheck();
+const report = new Report();
 
 const walkPath = 'test/';
 
@@ -45,6 +47,7 @@ function walk(dir, done) {
                 // write to file here?
                 lineCheckInstance.checkLenghtOfFile(file);
                 next();
+                report.generateReport();
               });
           }
         });
