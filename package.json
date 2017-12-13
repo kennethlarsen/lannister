@@ -1,0 +1,20 @@
+{
+  "name": "lannister",
+  "version": "1.0.0",
+  "description": "A Lannister always pays his technical debt. This is a tool to help you do just that.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "technical",
+    "debt"
+  ],
+  "author": "Kenneth Larsen",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.7.0"
+  }
+}
