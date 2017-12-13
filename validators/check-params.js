@@ -1,7 +1,7 @@
 const colors = require('colors/safe');
 
 function paramsLenght() {
-  this.checkParams = function (line, file) {
+  this.checkParams = (line, file) => {
     if (line.includes('function')) {
       const regExp = /\(([^)]+)\)/;
       const params = regExp.exec(line);

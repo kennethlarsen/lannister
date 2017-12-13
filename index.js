@@ -2,8 +2,11 @@ const fs = require('fs');
 const readline = require('readline');
 const stream = require('stream');
 const ParamsLenght = require('./validators/check-params');
+const LineCheck = require('./validators/file-length');
 
 const paramsCheckInstance = new ParamsLenght();
+const lineCheckInstance = new LineCheck();
+
 const walkPath = 'test/';
 
 function walk(dir, done) {
@@ -40,7 +43,7 @@ function walk(dir, done) {
 
               rl.on('close', function() {
                 // write to file here?
-                checkLenghtOfFile(file);
+                lineCheckInstance.checkLenghtOfFile(file);
                 next();
               });
           }
@@ -66,18 +69,3 @@ walk(walkPath, function(error) {
 /* function checkLenghtOfFunction(line) {
 
 } */
-
-function checkLenghtOfFile(file) {
-  let i;
-  let count = 0;
-  fs.createReadStream(file)
-    .on('data', function (chunk) {
-      for (i=0; i < chunk.length; ++i)
-        if (chunk[i] == 10) count++;
-    })
-    .on('end', function() {
-      if (count > 250) {
-        process.stdout.write(`${file}: ${count}`);        
-      }
-  });
-}
