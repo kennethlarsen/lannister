@@ -22,31 +22,31 @@ function walk(dir, done) {
     }
 
     (function next () {
-      var file = list[i++];
+      let file = list[i++];
 
       if (!file) {
         //report.generateReport();
         return done(null);
       }
       
-      file = dir + '/' + file;
-      
+      file = `${dir}/${file}`;
+
       fs.stat(file, function (error, stat) {
 
         if (stat && stat.isDirectory()) {
-              walk(file, function (error) {
-                  next();
-              });
+          walk(file, function (error) {
+            next();
+          });
         } else {
           const instream = fs.createReadStream(file);
           const outstream = new stream;
           const rl = readline.createInterface(instream, outstream);
 
-          rl.on('line', function(line) {
+          rl.on('line', function (line) {
             paramsCheckInstance.checkParams(line, file);
           });
 
-          rl.on('close', function() {
+          rl.on('close', function () {
             lineCheckInstance.checkLenghtOfFile(file);
             next();
           });
@@ -54,13 +54,13 @@ function walk(dir, done) {
       });
     })();
   });
-};
+}
 
 process.stdout.write('-------------------------------------------------------------\n');
 process.stdout.write('processing...\n');
 process.stdout.write('-------------------------------------------------------------\n');
 
-walk(walkPath, function(error) {
+walk(walkPath, function (error) {
   if (error) {
     throw error;
   } else {
