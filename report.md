@@ -1,7 +1,0 @@
-#Thu Dec 14 2017 19:38:29 GMT+0100 (CET)
-#Thu Dec 14 2017 19:38:43 GMT+0100 (CET)
-#Thu Dec 14 2017 19:39:00 GMT+0100 (CET)
-#Thu Dec 14 2017 19:39:10 GMT+0100 (CET)
-- [ ] Error in test/file.js: function test2(param1, param2, param3, param4, param5) { (too-many-args)
-- [ ] Error in test/file2.js: function test3000 (params1, params2, params3, params4, params5, params6) { (too-many-args)
-- [ ] test/file2.js is more then 250 lines. Consider refactor. (too-long)
