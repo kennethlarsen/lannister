@@ -8,8 +8,7 @@ const Report = require('./lib/file-handling/write-report');
 const paramsCheckInstance = new ParamsLenght();
 const lineCheckInstance = new LineCheck();
 const report = new Report();
-
-const walkPath = 'test/';
+const walkPath = process.argv[2];
 
 report.initialReport();
 
