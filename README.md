@@ -11,6 +11,8 @@ This is a work in progress. Basically, I like the idea of auto generating a list
 ## Usage
 
 `lannister src/` runs the the technical debt check on dir src/ and returns a report.md at current path.
+
+Do this before your sprint planning sessions and remember to pay your technical debt in every sprint. If not, the Iron Bank will kill you.
  
 ## Current rules
 * too-many-args: more than 4 args in a function
