@@ -4,7 +4,8 @@
   "description": "A Lannister always pays his technical debt. This is a tool to help you do just that.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "keywords": [
     "technical",
