@@ -3,11 +3,15 @@ const readline = require('readline');
 const stream = require('stream');
 const ParamsLenght = require('./lib/validators/function-validator');
 const LineCheck = require('./lib/validators/file-length');
+const Report = require('./lib/file-handling/write-report');
 
 const paramsCheckInstance = new ParamsLenght();
 const lineCheckInstance = new LineCheck();
+const report = new Report();
 
 const walkPath = 'test/';
+
+report.initialReport();
 
 function walk(dir, done) {
   fs.readdir(dir, (error, list) => {
