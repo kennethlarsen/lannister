@@ -1,6 +1,6 @@
 {
   "name": "lannister",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A Lannister always pays his technical debt. This is a tool to help you do just that.",
   "main": "index.js",
   "preferGlobal": true,
@@ -22,8 +22,5 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
     "jsdoc": "^3.5.5"
-  },
-  "dependencies": {
-    "colors": "^1.1.2"
   }
 }
