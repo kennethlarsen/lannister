@@ -1,6 +1,6 @@
 const fs = require('fs');
 const readline = require('readline');
-const stream = require('stream');
+const Stream = require('stream');
 const ParamsLenght = require('./lib/validators/function-validator');
 const LineCheck = require('./lib/validators/file-length');
 const Report = require('./lib/file-handling/write-report');
@@ -21,38 +21,38 @@ function walk(dir, done) {
       return done(error);
     }
 
-    (function next () {
+    (function next() {
       let file = list[i++];
 
       if (!file) {
-        //report.generateReport();
         return done(null);
       }
-      
+
       file = `${dir}/${file}`;
 
-      fs.stat(file, function (error, stat) {
-
+      fs.stat(file, (fileError, stat) => {
         if (stat && stat.isDirectory()) {
-          walk(file, function (error) {
+          walk(file, () => {
             next();
           });
         } else {
           const instream = fs.createReadStream(file);
-          const outstream = new stream;
+          const outstream = new Stream();
           const rl = readline.createInterface(instream, outstream);
 
-          rl.on('line', function (line) {
+          rl.on('line', (line) => {
             paramsCheckInstance.checkParams(line, file);
           });
 
-          rl.on('close', function () {
+          rl.on('close', () => {
             lineCheckInstance.checkLenghtOfFile(file);
             next();
           });
         }
       });
-    })();
+      return true;
+    }());
+    return true;
   });
 }
 
@@ -60,7 +60,7 @@ process.stdout.write('----------------------------------------------------------
 process.stdout.write('processing...\n');
 process.stdout.write('-------------------------------------------------------------\n');
 
-walk(walkPath, function (error) {
+walk(walkPath, (error) => {
   if (error) {
     throw error;
   } else {
