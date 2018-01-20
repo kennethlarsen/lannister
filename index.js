@@ -1,6 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const Stream = require('stream');
+const meow = require('meow');
 const ParamsLenght = require('./lib/validators/function-validator');
 const LineCheck = require('./lib/validators/file-length');
 const Report = require('./lib/file-handling/write-report');
@@ -9,8 +10,15 @@ const paramsCheckInstance = new ParamsLenght();
 const lineCheckInstance = new LineCheck();
 const report = new Report();
 const walkPath = process.argv[2];
+const args = meow();
+const { flags } = args;
+let pathToReport = 'report.md';
 
-report.initialReport();
+if (flags.o) {
+  pathToReport = `${flags.o}/report.md`;
+}
+
+report.initialReport(pathToReport);
 
 function walk(dir, done) {
   fs.readdir(dir, (error, list) => {
@@ -40,11 +48,11 @@ function walk(dir, done) {
           const rl = readline.createInterface(instream, outstream);
 
           rl.on('line', (line) => {
-            paramsCheckInstance.checkParams(line, file);
+            paramsCheckInstance.checkParams(line, file, pathToReport);
           });
 
           rl.on('close', () => {
-            lineCheckInstance.checkLenghtOfFile(file);
+            lineCheckInstance.checkLenghtOfFile(file, pathToReport);
             next();
           });
         }
