@@ -12,6 +12,10 @@ This is a work in progress. Basically, I like the idea of auto generating a list
 
 `lannister src/` runs the the technical debt check on dir src/ and returns a report.md at current path.
 
+If you want to change the path of the report.md you can use the output flag (`-o`) to change this.
+
+`lannister src/ -o reports/`
+
 Do this before your sprint planning sessions and remember to pay your technical debt in every sprint. If not, the Iron Bank will kill you.
  
 ## Current rules
