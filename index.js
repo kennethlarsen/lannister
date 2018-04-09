@@ -40,7 +40,6 @@ function removeUnwantedFiles(fileList) {
 function walk(dir, done) {
   fs.readdir(dir, (error, list) => {
     const cleanFileList = removeUnwantedFiles(list);
-    console.log(cleanFileList);
     let i = 0;
 
     if (error) {
@@ -49,7 +48,7 @@ function walk(dir, done) {
 
     (function next() {
       let file = cleanFileList[i];
-      console.log(file);
+
       if (!file) {
         return done(null);
       }
