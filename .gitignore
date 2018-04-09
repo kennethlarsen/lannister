@@ -1,3 +1,4 @@
 node_modules/*
 .babelrc
 report.md
+*.DS_Store
