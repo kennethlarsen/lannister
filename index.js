@@ -3,12 +3,18 @@ const readline = require('readline');
 const Stream = require('stream');
 const meow = require('meow');
 const fileExtension = require('file-extension');
-const ParamsLenght = require('./lib/validators/function-validator');
-const LineCheck = require('./lib/validators/file-length');
 const Report = require('./lib/file-handling/write-report');
 
+// Import validators
+const ParamsLenght = require('./lib/validators/function-validator');
+const LineCheck = require('./lib/validators/file-length');
+const TodoCheck = require('./lib/validators/comments.js');
+
+// Initiate validators
 const paramsCheckInstance = new ParamsLenght();
 const lineCheckInstance = new LineCheck();
+const todoCheckInstance = new TodoCheck();
+
 const report = new Report();
 const walkPath = process.argv[2];
 const args = meow();
@@ -62,6 +68,7 @@ function walk(dir, done) {
 
           rl.on('line', (line) => {
             paramsCheckInstance.checkParams(line, file, pathToReport);
+            todoCheckInstance.checkForTodoComments(line, file, pathToReport);
           });
 
           rl.on('close', () => {
