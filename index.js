@@ -9,12 +9,12 @@ const ora = require('ora');
 const Report = require('./lib/file-handling/write-report');
 
 // Import validators
-const ParamsLenght = require('./lib/validators/function-validator');
+const ParamsLength = require('./lib/validators/function-validator');
 const LineCheck = require('./lib/validators/file-length');
 const TodoCheck = require('./lib/validators/comments.js');
 
 // Initiate validators
-const paramsCheckInstance = new ParamsLenght();
+const paramsCheckInstance = new ParamsLength();
 const lineCheckInstance = new LineCheck();
 const todoCheckInstance = new TodoCheck();
 
@@ -55,7 +55,7 @@ async function walk(dir) {
       });
 
       rl.on('close', () => {
-        lineCheckInstance.checkLenghtOfFile(file, pathToReport);
+        lineCheckInstance.checkLengthOfFile(file, pathToReport);
         i += 1;
         next();
       });
