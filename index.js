@@ -1,16 +1,17 @@
 const fs = require('fs');
+const path = require('path');
 const readline = require('readline');
 const Stream = require('stream');
 const meow = require('meow');
+const globby = require('globby');
+const ora = require('ora');
+
 const Report = require('./lib/file-handling/write-report');
 
 // Import validators
 const ParamsLenght = require('./lib/validators/function-validator');
 const LineCheck = require('./lib/validators/file-length');
 const TodoCheck = require('./lib/validators/comments.js');
-
-// Import utils
-const removeUnwantedFiles = require('./utils/remove-unwanted-files');
 
 // Initiate validators
 const paramsCheckInstance = new ParamsLenght();
@@ -29,62 +30,48 @@ if (flags.o) {
 
 report.initialReport(pathToReport);
 
-function walk(dir, done) {
-  fs.readdir(dir, (error, list) => {
-    const cleanFileList = removeUnwantedFiles(list);
+const spinner = ora('Processing..').start();
+
+async function walk(dir) {
+  try {
+    const filesPath = path.join(dir, '**', '*.js');
+    const files = await globby([filesPath]);
     let i = 0;
 
-    if (error) {
-      return done(error);
-    }
-
     (function next() {
-      let file = cleanFileList[i];
+      const file = files[i];
 
       if (!file) {
-        return done(null);
+        return false;
       }
 
-      file = `${dir}/${file}`;
+      const instream = fs.createReadStream(file);
+      const outstream = new Stream();
+      const rl = readline.createInterface(instream, outstream);
 
-      fs.stat(file, (fileError, stat) => {
-        if (stat && stat.isDirectory()) {
-          walk(file, () => {
-            next();
-          });
-        } else {
-          const instream = fs.createReadStream(file);
-          const outstream = new Stream();
-          const rl = readline.createInterface(instream, outstream);
+      rl.on('line', (line) => {
+        paramsCheckInstance.checkParams(line, file, pathToReport);
+        todoCheckInstance.checkForTodoComments(line, file, pathToReport);
+      });
 
-          rl.on('line', (line) => {
-            paramsCheckInstance.checkParams(line, file, pathToReport);
-            todoCheckInstance.checkForTodoComments(line, file, pathToReport);
-          });
-
-          rl.on('close', () => {
-            lineCheckInstance.checkLenghtOfFile(file, pathToReport);
-            i += 1;
-            next();
-          });
-        }
+      rl.on('close', () => {
+        lineCheckInstance.checkLenghtOfFile(file, pathToReport);
+        i += 1;
+        next();
       });
       return true;
     }());
-    return true;
-  });
+  } catch (error) {
+    spinner.fail(`Error: ${error}`);
+    return false;
+  }
+  return true;
 }
 
-process.stdout.write('-------------------------------------------------------------\n');
-process.stdout.write('processing...\n');
-process.stdout.write('-------------------------------------------------------------\n');
-
-walk(walkPath, (error) => {
-  if (error) {
-    throw error;
-  } else {
-    process.stdout.write('-------------------------------------------------------------\n');
-    process.stdout.write('finished.\n');
-    process.stdout.write('-------------------------------------------------------------\n');
-  }
-});
+(async () => {
+  await walk(walkPath);
+  // Let's wait at least a second for UX purposes..
+  setTimeout(() => {
+    spinner.succeed(`Finished! - Logged the results to ${pathToReport}`);
+  }, 1000);
+})();
