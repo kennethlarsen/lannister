@@ -3,9 +3,9 @@ const mock = require('mock-fs');
 const mocha = require('mocha');
 const chai = require('chai');
 
-const ParamsLenght = require('../lib/validators/function-validator');
+const ParamsLength = require('../lib/validators/function-validator');
 
-const paramsCheckInstance = new ParamsLenght();
+const paramsCheckInstance = new ParamsLength();
 
 mocha.describe('Functions', () => {
   mocha.beforeEach(() => {
