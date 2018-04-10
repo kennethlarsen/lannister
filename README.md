@@ -1,5 +1,6 @@
 # lannister
 [![Build Status](https://travis-ci.org/kennethlarsen/lannister.svg?branch=master)](https://travis-ci.org/kennethlarsen/lannister)
+[![Coverage Status](https://coveralls.io/repos/github/kennethlarsen/lannister/badge.svg?branch=master)](https://coveralls.io/github/kennethlarsen/lannister?branch=master)
 
 
 A Lannister always pays his technical debt
