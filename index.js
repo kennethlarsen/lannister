@@ -2,13 +2,15 @@ const fs = require('fs');
 const readline = require('readline');
 const Stream = require('stream');
 const meow = require('meow');
-const fileExtension = require('file-extension');
 const Report = require('./lib/file-handling/write-report');
 
 // Import validators
 const ParamsLenght = require('./lib/validators/function-validator');
 const LineCheck = require('./lib/validators/file-length');
 const TodoCheck = require('./lib/validators/comments.js');
+
+// Import utils
+const removeUnwantedFiles = require('./utils/remove-unwanted-files');
 
 // Initiate validators
 const paramsCheckInstance = new ParamsLenght();
@@ -26,16 +28,6 @@ if (flags.o) {
 }
 
 report.initialReport(pathToReport);
-
-function removeUnwantedFiles(fileList) {
-  const cleanFiles = [];
-  fileList.forEach((file) => {
-    if (fileExtension(file) === 'js') {
-      cleanFiles.push(file);
-    }
-  });
-  return cleanFiles;
-}
 
 function walk(dir, done) {
   fs.readdir(dir, (error, list) => {
