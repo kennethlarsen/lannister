@@ -1,7 +1,8 @@
 const test = "test";
 
 function test(param1) {
-
+  console.log(param1);
+  Console.someMethod({})
 }
 
 function test() {
