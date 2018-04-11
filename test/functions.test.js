@@ -14,6 +14,13 @@ mocha.describe('Functions', () => {
     });
   });
 
+  mocha.it('should not write to report if it finds a function with no params', () => {
+    paramsCheckInstance.checkParams('function someFunc() {', 'somefile.js', './report.md');
+    const reportAfterCheck = fs.readFileSync('./report.md').toString();
+    chai.expect(reportAfterCheck).to.be.lengthOf(0);
+    chai.expect(reportAfterCheck).not.to.contain('(too-many-args)');
+  });
+  
   mocha.it('should not write to report if it finds a function with one param', () => {
     paramsCheckInstance.checkParams('function someFunc(foo) {', 'somefile.js', './report.md');
     const reportAfterCheck = fs.readFileSync('./report.md').toString();
