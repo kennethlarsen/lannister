@@ -13,12 +13,14 @@ const ParamsLength = require('./lib/validators/function-validator');
 const LineCheck = require('./lib/validators/file-length');
 const TodoCheck = require('./lib/validators/comments.js');
 const ConsoleCheck = require('./lib/validators/console');
+const LineLengthCheck = require('./lib/validators/line-length');
 
 // Initiate validators
 const paramsCheckInstance = new ParamsLength();
 const lineCheckInstance = new LineCheck();
 const todoCheckInstance = new TodoCheck();
 const consoleCheckInstance = new ConsoleCheck();
+const lineLengthInstance = new LineLengthCheck();
 
 const report = new Report();
 const walkPath = process.argv[2];
@@ -55,6 +57,7 @@ async function walk(dir) {
         paramsCheckInstance.checkParams(line, file, pathToReport);
         todoCheckInstance.checkForTodoComments(line, file, pathToReport);
         consoleCheckInstance.checkForConsoleCalls(line, file, pathToReport);
+        lineLengthInstance.checkMaxLength(line, file, pathToReport);
       });
 
       rl.on('close', () => {
