@@ -27,4 +27,4 @@ Do this before your sprint planning sessions and remember to pay your technical 
 * too-long/file-too-long: file length more than 250 lines
 * todo-comment: TODO comment found in code
 * console-call: found statements like console.log()
-* line-length: code line that is more than 80 characters long
+* line-length: code line that is more than 100 characters long

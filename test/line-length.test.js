@@ -15,21 +15,21 @@ mocha.describe('Line Length', () => {
   });
 
   mocha.it('should not write to report if it finds a short line', () => {
-    lineLengthInstance.checkMaxLength('const shortVarName = true', 'somefile.js', './report.md');
+    lineLengthInstance.checkMaxLength('const shortVarName = true;', 'somefile.js', './report.md');
     const reportAfterCheck = fs.readFileSync('./report.md').toString();
     chai.expect(reportAfterCheck).to.be.lengthOf(0);
     chai.expect(reportAfterCheck).not.to.contain('(line-length)');
   });
 
-  mocha.it('should not write to report if it finds a 80 character line', () => {
-    lineLengthInstance.checkMaxLength('const someReallyLongVarName = "With some quite long text in it as well........."', 'somefile.js', './report.md');
+  mocha.it('should not write to report if it finds a 100 character line', () => {
+    lineLengthInstance.checkMaxLength('const someReallyLongVarName = "With some quite long text in it as well............................."', 'somefile.js', './report.md');
     const reportAfterCheck = fs.readFileSync('./report.md').toString();
     chai.expect(reportAfterCheck).to.be.lengthOf(0);
     chai.expect(reportAfterCheck).not.to.contain('(line-length)');
   });
 
-  mocha.it('should write to report if it finds a 81 character line', () => {
-    lineLengthInstance.checkMaxLength('const someReallyLongVarName = "With some quite long text in it as well.........."', 'somefile.js', './report.md');
+  mocha.it('should write to report if it finds a 101 character line', () => {
+    lineLengthInstance.checkMaxLength('const someReallyLongVarName = "With some quite long text in it as well.............................."', 'somefile.js', './report.md');
     const reportAfterCheck = fs.readFileSync('./report.md').toString();
     chai.expect(reportAfterCheck).not.to.be.lengthOf(0);
     chai.expect(reportAfterCheck).to.contain('(line-length)');
