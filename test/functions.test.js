@@ -20,7 +20,21 @@ mocha.describe('Functions', () => {
     chai.expect(reportAfterCheck).to.be.lengthOf(0);
     chai.expect(reportAfterCheck).not.to.contain('(too-many-args)');
   });
-  
+
+  mocha.it('should not write to report if it finds an arrow function with one param without parentheses', () => {
+    paramsCheckInstance.checkParams('foo => foo.length', 'somefile.js', './report.md');
+    const reportAfterCheck = fs.readFileSync('./report.md').toString();
+    chai.expect(reportAfterCheck).to.be.lengthOf(0);
+    chai.expect(reportAfterCheck).not.to.contain('(too-many-args)');
+  });
+
+  mocha.it('should not write to report if it finds an arrow function with one param with parentheses', () => {
+    paramsCheckInstance.checkParams('(foo) => foo.length', 'somefile.js', './report.md');
+    const reportAfterCheck = fs.readFileSync('./report.md').toString();
+    chai.expect(reportAfterCheck).to.be.lengthOf(0);
+    chai.expect(reportAfterCheck).not.to.contain('(too-many-args)');
+  });
+
   mocha.it('should not write to report if it finds a function with one param', () => {
     paramsCheckInstance.checkParams('function someFunc(foo) {', 'somefile.js', './report.md');
     const reportAfterCheck = fs.readFileSync('./report.md').toString();
@@ -30,6 +44,13 @@ mocha.describe('Functions', () => {
 
   mocha.it('should write to report if it finds a function with five params', () => {
     paramsCheckInstance.checkParams('function someFunc(foo, bar, baz, qux, quux) {', 'somefile.js', './report.md');
+    const reportAfterCheck = fs.readFileSync('./report.md').toString();
+    chai.expect(reportAfterCheck).not.to.be.lengthOf(0);
+    chai.expect(reportAfterCheck).to.contain('(too-many-args)');
+  });
+
+  mocha.it('should write to report if it finds an arrow function with five params', () => {
+    paramsCheckInstance.checkParams('(foo, bar, baz, qux, quux) => {', 'somefile.js', './report.md');
     const reportAfterCheck = fs.readFileSync('./report.md').toString();
     chai.expect(reportAfterCheck).not.to.be.lengthOf(0);
     chai.expect(reportAfterCheck).to.contain('(too-many-args)');
