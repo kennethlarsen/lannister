@@ -44,6 +44,7 @@ async function walk(dir) {
 
     (function next() {
       const file = files[i];
+      let lineNumber = 1;
 
       if (!file) {
         return false;
@@ -54,10 +55,11 @@ async function walk(dir) {
       const rl = readline.createInterface(instream, outstream);
 
       rl.on('line', (line) => {
-        paramsCheckInstance.checkParams(line, file, pathToReport);
-        todoCheckInstance.checkForTodoComments(line, file, pathToReport);
-        consoleCheckInstance.checkForConsoleCalls(line, file, pathToReport);
-        lineLengthInstance.checkMaxLength(line, file, pathToReport);
+        paramsCheckInstance.checkParams(line, file, pathToReport, lineNumber);
+        todoCheckInstance.checkForTodoComments(line, file, pathToReport, lineNumber);
+        consoleCheckInstance.checkForConsoleCalls(line, file, pathToReport, lineNumber);
+        lineLengthInstance.checkMaxLength(line, file, pathToReport, lineNumber);
+        lineNumber += 1;
       });
 
       rl.on('close', () => {
